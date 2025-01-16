@@ -2,10 +2,12 @@
 /*
 Plugin Name: Delete Users with Specific Roles
 Description: A professional WordPress plugin to delete users based on their roles.
-Version: 2.1
+Version: 2.2
 Author: Awasam
 Author URI: https://awasam.com
-Text Domain: delete-users-roles
+Text Domain: delete-users-with-specific-roles
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,8 +19,8 @@ add_action( 'admin_menu', 'dus_roles_menu' );
 
 function dus_roles_menu() {
     add_options_page(
-        __( 'Delete Users Settings', 'delete-users-roles' ),
-        __( 'Delete Users', 'delete-users-roles' ),
+        __( 'Delete Users Settings', 'delete-users-with-specific-roles' ),
+        __( 'Delete Users', 'delete-users-with-specific-roles' ),
         'manage_options',
         'delete-users-roles',
         'dus_settings_page'
@@ -29,7 +31,7 @@ function dus_roles_menu() {
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'dus_add_settings_link' );
 
 function dus_add_settings_link( $links ) {
-    $settings_link = '<a href="options-general.php?page=delete-users-roles">' . __( 'Settings', 'delete-users-roles' ) . '</a>';
+    $settings_link = '<a href="options-general.php?page=delete-users-roles">' . __( 'Settings', 'delete-users-with-specific-roles' ) . '</a>';
     array_unshift( $links, $settings_link );
     return $links;
 }
@@ -50,7 +52,7 @@ function dus_settings_page() {
         $new_role = sanitize_text_field( $_POST['role'] );
         update_option( 'dus_auto_delete_role', $new_role );
 
-        echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully.', 'delete-users-roles' ) . '</p></div>';
+        echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__( 'Settings saved successfully.', 'delete-users-with-specific-roles' ) . '</p></div>';
     }
 
     if ( isset( $_POST['dus_delete_users'] ) ) {
@@ -58,20 +60,20 @@ function dus_settings_page() {
 
         if ( $selected_role ) {
             $deleted_count = dus_delete_users_by_role( $selected_role );
-            echo '<div class="notice notice-success is-dismissible"><p>' . sprintf( esc_html__( '%d users with the role "%s" were deleted.', 'delete-users-roles' ), $deleted_count, esc_html( $selected_role ) ) . '</p></div>';
+            echo '<div class="notice notice-success is-dismissible"><p>' . sprintf( esc_html__( '%d users with the role "%s" were deleted.', 'delete-users-with-specific-roles' ), $deleted_count, esc_html( $selected_role ) ) . '</p></div>';
         } else {
-            echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'No role selected for deletion.', 'delete-users-roles' ) . '</p></div>';
+            echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__( 'No role selected for deletion.', 'delete-users-with-specific-roles' ) . '</p></div>';
         }
     }
 
     ?>
     <div class="wrap">
-        <h1><?php esc_html_e( 'Delete Users Settings', 'delete-users-roles' ); ?></h1>
+        <h1><?php esc_html_e( 'Delete Users Settings', 'delete-users-with-specific-roles' ); ?></h1>
         <form method="post" action="">
             <table class="form-table">
                 <tr valign="top">
                     <th scope="row">
-                        <label for="role"><?php esc_html_e( 'Select Role for Deletion', 'delete-users-roles' ); ?></label>
+                        <label for="role"><?php esc_html_e( 'Select Role for Deletion', 'delete-users-with-specific-roles' ); ?></label>
                     </th>
                     <td>
                         <select name="role" id="role" class="regular-text">
@@ -86,13 +88,13 @@ function dus_settings_page() {
             </table>
             <?php wp_nonce_field( 'dus_save_settings_action', 'dus_save_settings_nonce' ); ?>
             <p class="submit">
-                <input type="submit" name="dus_save_settings" class="button button-primary" value="<?php esc_attr_e( 'Save Settings', 'delete-users-roles' ); ?>">
+                <input type="submit" name="dus_save_settings" class="button button-primary" value="<?php esc_attr_e( 'Save Settings', 'delete-users-with-specific-roles' ); ?>">
             </p>
         </form>
         <form method="post" action="" style="margin-top: 20px;">
             <?php wp_nonce_field( 'dus_delete_users_action', 'dus_delete_users_nonce' ); ?>
             <p class="submit">
-                <input type="submit" name="dus_delete_users" class="button button-danger" value="<?php esc_attr_e( 'Delete Users with Selected Role', 'delete-users-roles' ); ?>">
+                <input type="submit" name="dus_delete_users" class="button button-danger" value="<?php esc_attr_e( 'Delete Users with Selected Role', 'delete-users-with-specific-roles' ); ?>">
             </p>
         </form>
     </div>
@@ -117,5 +119,5 @@ function dus_delete_users_by_role( $role ) {
 add_action( 'plugins_loaded', 'dus_load_textdomain' );
 
 function dus_load_textdomain() {
-    load_plugin_textdomain( 'delete-users-roles', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+    load_plugin_textdomain( 'delete-users-with-specific-roles', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
